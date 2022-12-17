@@ -1,11 +1,9 @@
-import { useSession } from "next-auth/react";
 import Header from "../../components/Navbar/Header";
 import Pricing from "../../components/partials/Pricing";
 import Welcomeuser from "../../components/partials/Welcomeuser";
 import Sidebar from "../../components/Sidebar/Sidebar";
 
 export default function index() {
-  const session = useSession();
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar />
