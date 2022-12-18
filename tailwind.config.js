@@ -56,7 +56,6 @@ module.exports = {
     },
   },
   plugins: [
-    // eslint-disable-next-line global-require
     require('@tailwindcss/forms'),
     // add custom variant for expanding sidebar
     plugin(({ addVariant, e }) => {

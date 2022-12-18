@@ -51,3 +51,16 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model Fields {
+    id          String   @id @default(cuid())
+    name        String
+    placeholder String
+    type        String
+    fieldid     String
+    fieldclass  String
+    textrows    String?
+    textcols    String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime? @updatedAt
+}

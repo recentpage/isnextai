@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-function JobListItem(props:any) {
+function JobListItem(props: any) {
   return (
     <div
       className={`shadow-lg rounded-sm border px-5 py-4 ${
@@ -27,15 +27,15 @@ function JobListItem(props:any) {
               className="inline-flex font-semibold text-slate-800"
               href={props.link}
             >
-              {props.role}
+              {props.name}
             </Link>
-            <div className="text-sm">{props.details}</div>
+            <div className="text-sm">{props.email}</div>
           </div>
         </div>
         {/* Right side */}
         <div className="flex items-center space-x-4 pl-10 md:pl-0">
           <div className="text-sm text-slate-500 italic whitespace-nowrap">
-            {props.date}
+            {/* {props.date} */}
           </div>
           {props.type && (
             <div

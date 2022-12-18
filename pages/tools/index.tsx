@@ -1,7 +1,22 @@
-import React, { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import React from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 
-export default function index() {
+export default function Tools() {
+  const router = useRouter();
+
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  }
+
+  if (status === "unauthenticated") {
+    router.push("/");
+    return;
+  }
+
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar />

@@ -1,12 +1,14 @@
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import React from "react";
-import Header from "../../components/Navbar/Header";
-import JobListItem from "../../components/partials/JobListItem";
-import PaginationNumeric from "../../components/partials/PaginationNumeric";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import Header from "../../../components/admin/Navbar/Header";
+import JobListItem from "../../../components/partials/JobListItem";
+import PaginationNumeric from "../../../components/partials/PaginationNumeric";
+import Sidebar from "../../../components/admin/Sidebar/Sidebar";
+import { GetServerSideProps } from "next";
+import { PrismaClient } from "@prisma/client";
 
-export default function Spaces() {
+export default function Forms({ allfields }: any) {
   const router = useRouter();
 
   const { data: session, status } = useSession();
@@ -19,118 +21,8 @@ export default function Spaces() {
     router.push("/");
     return;
   }
-  const items = [
-    {
-      id: 0,
-      image: "/company-icon-05.svg",
-      company: "Company 01",
-      role: "Senior Web App Designer",
-      link: "/job/job-post",
-      details: "Contract / Remote / New York, NYC",
-      date: "Jan 4",
-      type: "Featured",
-      fav: false,
-    },
-    {
-      id: 1,
-      image: "/company-icon-05.svg",
-      company: "Company 02",
-      role: "Senior Full Stack Engineer",
-      link: "/job/job-post",
-      details: "Contract / Remote / New York, NYC",
-      date: "Jan 7",
-      type: "New",
-      fav: true,
-    },
-    {
-      id: 2,
-      image: "company-icon-06.svg",
-      company: "Company 03",
-      role: "Ruby on Rails Engineer",
-      link: "/job/job-post",
-      details: "Contract / Remote / New York, NYC",
-      date: "Jan 7",
-      type: "New",
-      fav: false,
-    },
-    {
-      id: 3,
-      image: "/company-icon-03.svg",
-      company: "Company 04",
-      role: "Senior Software Engineer Backend",
-      link: "/job/job-post",
-      details: "Full-time / Remote / Anywhere",
-      date: "Jan 7",
-      type: "New",
-      fav: false,
-    },
-    {
-      id: 4,
-      image: "/company-icon-07.svg",
-      company: "Company 05",
-      role: "React.js Software Developer",
-      link: "/job/job-post",
-      details: "Full-time / Remote / London, UK",
-      date: "Jan 6",
-      type: "New",
-      fav: true,
-    },
-    {
-      id: 5,
-      image: "company-icon-08.svg",
-      company: "Company 06",
-      role: "Senior Full Stack Rails Developer",
-      link: "/job/job-post",
-      details: "Part-time / Remote / Milan, IT",
-      date: "Jan 6",
-      type: "New",
-      fav: false,
-    },
-    {
-      id: 6,
-      image: "company-icon-01.svg",
-      company: "Company 07",
-      role: "Principal Software Engineer",
-      link: "/job/job-post",
-      details: "Freelance / Remote / London, UK",
-      date: "Jan 6",
-      type: "New",
-      fav: false,
-    },
-    {
-      id: 7,
-      image: "/company-icon-02.svg",
-      company: "Company 08",
-      role: "Contract React Native Engineer",
-      link: "/job/job-post",
-      details: "Contract / Remote / Miami, FL",
-      date: "Jan 6",
-      type: "New",
-      fav: false,
-    },
-    {
-      id: 8,
-      image: "/company-icon-02.svg",
-      company: "Company 09",
-      role: "Senior Client Engineer (React & React Native)",
-      link: "/job/job-post",
-      details: "Full-time / Remote / Lincoln, NE",
-      date: "Jan 5",
-      type: "New",
-      fav: false,
-    },
-    {
-      id: 9,
-      image: "/company-icon-02.svg",
-      company: "Company 10",
-      role: "QA Automation Engineer",
-      link: "/job/job-post",
-      details: "Contract / Remote / Anywhere",
-      date: "Jan 5",
-      type: "New",
-      fav: false,
-    },
-  ];
+  const fields = allfields;
+  console.log(fields);
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -147,7 +39,7 @@ export default function Spaces() {
               {/* Left: Title */}
               <div className="mb-4 sm:mb-0">
                 <h1 className="text-2xl md:text-3xl text-slate-800 font-bold">
-                  Search For Your Spaces ✨
+                  Search For Your Fields ✨
                 </h1>
               </div>
 
@@ -210,18 +102,18 @@ export default function Spaces() {
 
                 {/* Jobs list */}
                 <div className="space-y-2">
-                  {items.map((item) => {
+                  {fields.map((field: any) => {
                     return (
                       <JobListItem
-                        key={item.id}
-                        id={item.id}
-                        image={item.image}
-                        role={item.role}
-                        link={item.link}
-                        details={item.details}
-                        date={item.date}
-                        type={item.type}
-                        fav={item.fav}
+                        key={field.id}
+                        id={field.id}
+                        // image={field.image}
+                        name={field.name}
+                        link={field.type}
+                        email={field.placeholder}
+                        date={field.fieldclass}
+                        type={field.type}
+                        fav={field.name}
                       />
                     );
                   })}
@@ -239,3 +131,24 @@ export default function Spaces() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const prisma = new PrismaClient();
+  // READ all notes from DB
+  const allfields = await prisma?.fields.findMany({
+    select: {
+      id: true,
+      name: true,
+      placeholder: true,
+      type: true,
+      fieldid: true,
+      fieldclass: true,
+    },
+  });
+
+  return {
+    props: {
+      allfields,
+    },
+  };
+};

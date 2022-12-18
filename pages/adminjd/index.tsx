@@ -1,7 +1,7 @@
-import Header from "../../components/Navbar/Header";
+import Header from "../../components/admin/Navbar/Header";
 import Pricing from "../../components/partials/Pricing";
 import Welcomeuser from "../../components/partials/Welcomeuser";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import Sidebar from "../../components/admin/Sidebar/Sidebar";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
