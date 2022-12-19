@@ -135,7 +135,7 @@ export default function Forms({ allfields }: any) {
 export const getServerSideProps: GetServerSideProps = async () => {
   const prisma = new PrismaClient();
   // READ all notes from DB
-  const allfields = await prisma?.fields.findMany({
+  const allfields = await prisma.fields.findMany({
     select: {
       id: true,
       name: true,
